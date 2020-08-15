@@ -1,1 +1,1 @@
-# pyrhon_training
+# Repository for Python Training
