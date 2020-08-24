@@ -17,6 +17,7 @@ class TestAddGroup(unittest.TestCase):
         wd.get("http://localhost/addressbook/")
 
     def login(self, wd, user_name, password):
+        self.open_home_page(wd)
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys("%s" % user_name)
@@ -40,6 +41,7 @@ class TestAddGroup(unittest.TestCase):
         wd.find_element_by_name("group_footer").send_keys("%s" % group.footer)
         # submit group creation
         wd.find_element_by_name("submit").click()
+        self.return_group_page(wd)
 
     def return_group_page(self, wd):
         wd.find_element_by_link_text("group page").click()
@@ -49,18 +51,13 @@ class TestAddGroup(unittest.TestCase):
 
     def test_add_group(self):
         wd = self.wd
-        self.open_home_page(wd)
         self.login(wd, user_name="admin", password="secret")
         self.create_group(wd, Group(name="test", header="test", footer="test"))
-        self.return_group_page(wd)
-        self.logout(wd)
 
     def test_add_emty_group(self):
         wd = self.wd
-        self.open_home_page(wd)
         self.login(wd, user_name="admin", password="secret")
         self.create_group(wd, Group(name="", header="", footer=""))
-        self.return_group_page(wd)
         self.logout(wd)
 
     def is_element_present(self, how, what):
